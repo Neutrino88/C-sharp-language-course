@@ -63,6 +63,8 @@ public class Program
             lib.ReturnBookToLibrary(book);
         }
 
+        Console.WriteLine(book1.DateOfIssue);
+
         PrintBooks(lib.GetFreeBooks());
         PrintBooks(cust1.GetAllBooks());
         PrintBooks(cust2.GetAllBooks());
@@ -84,7 +86,7 @@ public class Program
         {
             if (book.Customer != null)
             {
-                Console.Write(book.Date + "     ");
+                Console.Write(book.DateOfIssue + "     ");
             }
             Console.WriteLine(book.Author + ", " + book.Title + ", rarity_" + book.IsRarity);
         }

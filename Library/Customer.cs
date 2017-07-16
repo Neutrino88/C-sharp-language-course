@@ -48,7 +48,7 @@ namespace hw.Library
             {
                 try
                 {
-                    TimeSpan ts = curBook.Date - DateTime.Now;
+                    TimeSpan ts = curBook.DateOfIssue - DateTime.Now;
 
                     if (ts.Days > 14)
                     {

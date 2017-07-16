@@ -8,21 +8,21 @@ namespace hw.Library
         public string Title  { get; private set; }
         public bool IsRarity { get; private set; }
         public Customer Customer { get; private set; } = null;
-        private DateTime _date;
-        public DateTime Date{
+        private DateTime _dateOfIssue;
+        public DateTime DateOfIssue{
             get
             {
                 if (this.Customer != null)
                 {
-                    return this._date;
+                    return this._dateOfIssue;
                 }
                 
-                throw new NullReferenceException();
+                throw new NullReferenceException("Book in library");
             }
             
             private set
             {
-                this._date = value;
+                this._dateOfIssue = value;
             }
         }
         
@@ -36,7 +36,7 @@ namespace hw.Library
         public void AddCustomer(Customer customer)
         {
             this.Customer = customer;
-            this.Date = DateTime.Now;
+            this.DateOfIssue = DateTime.Now;
         }
 
         public void DelCustomer()
