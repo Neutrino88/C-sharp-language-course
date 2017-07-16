@@ -16,12 +16,12 @@ class Library
         this.booksList.AddLast(newBook);
     }
 
-    public ICollection<Book> GetAllBooks()
+    public IReadOnlyCollection<Book> GetAllBooks()
     {
         return this.booksList;
     }
 
-    public ICollection<Book> GetFreeBooks()
+    public IReadOnlyCollection<Book> GetFreeBooks()
     {
         LinkedList<Book> freeBooksList = new LinkedList<Book>();
 
@@ -36,7 +36,7 @@ class Library
         return freeBooksList;
     }
 
-    public ICollection<Book> GetTakenBooks()
+    public IReadOnlyCollection<Book> GetTakenBooks()
     {
         LinkedList<Book> takenBooksList = new LinkedList<Book>();
 
@@ -51,7 +51,7 @@ class Library
         return takenBooksList;
     }
 
-    public ICollection<Book> FindBooksByAuthor(String author)
+    public IReadOnlyCollection<Book> FindBooksByAuthor(String author)
     {
         LinkedList<Book> trueBooks = new LinkedList<Book>();
 
@@ -66,7 +66,7 @@ class Library
         return trueBooks;
     }
 
-    public ICollection<Book> FindBooksByTitle(String title)
+    public IReadOnlyCollection<Book> FindBooksByTitle(String title)
     {
         LinkedList<Book> trueBooks = new LinkedList<Book>();
 

@@ -76,7 +76,7 @@ public class Program
         Console.ReadKey(true);
 	}
 
-    public static void PrintBooks(ICollection<Book> books)
+    public static void PrintBooks(IReadOnlyCollection<Book> books)
     {
         Console.WriteLine(books.Count +  " books:");
 

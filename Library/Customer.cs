@@ -18,12 +18,12 @@ namespace hw.Library
             this.books = new LinkedList<Book>();
         }
 
-        public ICollection<Book> GetAllBooks()
+        public IReadOnlyCollection<Book> GetAllBooks()
         {
             return this.books;
         }
 
-        public ICollection<Book> GetExpiredBooks()
+        public IReadOnlyCollection<Book> GetExpiredBooks()
         {
             LinkedList<Book> books = new LinkedList<Book>();
 
