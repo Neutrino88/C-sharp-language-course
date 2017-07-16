@@ -5,10 +5,27 @@ namespace hw.Library
 {
     public class Customer
     {
+        LinkedList<Book> books;
         public string Name { get; private set; }
         public string Number { get; private set; }
-        public bool HasRarityBook { get; private set; }
-        LinkedList<Book> books;
+        private bool _hasRarityBook;
+        public bool HasRarityBook {
+            get
+            {
+                this._hasRarityBook = false;
+
+                foreach (var curBook in books)
+                {
+                    this._hasRarityBook |= curBook.IsRarity; 
+                }
+
+                return this._hasRarityBook;
+            }
+            private set
+            {
+                this._hasRarityBook = value;
+            }
+        }
 
         public Customer(string name, string number)
         {
@@ -49,13 +66,11 @@ namespace hw.Library
         public void AddBook(Book book)
         {
             this.books.AddLast(book);
-            this.HasRarityBook = this.HasRarityBook | book.IsRarity;
         }
 
         public void DelBook(Book book)
         {
             this.books.Remove(book);
-            this.HasRarityBook ^= book.IsRarity;
         }
     }
 }
