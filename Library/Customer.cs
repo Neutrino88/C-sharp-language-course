@@ -8,22 +8,17 @@ namespace hw.Library
         LinkedList<Book> books;
         public string Name { get; private set; }
         public string Number { get; private set; }
-        private bool _hasRarityBook;
         public bool HasRarityBook {
             get
             {
-                this._hasRarityBook = false;
+                bool hasRarityBook = false;
 
                 foreach (var curBook in books)
                 {
-                    this._hasRarityBook |= curBook.IsRarity; 
+                    hasRarityBook |= curBook.IsRarity; 
                 }
 
-                return this._hasRarityBook;
-            }
-            private set
-            {
-                this._hasRarityBook = value;
+                return hasRarityBook;
             }
         }
 
@@ -31,7 +26,6 @@ namespace hw.Library
         {
             this.Name = name;
             this.Number = number;
-            this.HasRarityBook = false;
             this.books = new LinkedList<Book>();
         }
 
@@ -43,14 +37,14 @@ namespace hw.Library
         public IReadOnlyCollection<Book> GetExpiredBooks()
         {
             LinkedList<Book> books = new LinkedList<Book>();
-
+            
             foreach(var curBook in this.books)
             {
                 try
                 {
                     TimeSpan ts = curBook.DateOfIssue - DateTime.Now;
 
-                    if (ts.Days > 14)
+                    if (ts.Days > 14 && curBook.DateOfIssue < DateTime.MaxValue)
                     {
                         books.AddLast(curBook);
                     }

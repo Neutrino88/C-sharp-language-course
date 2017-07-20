@@ -16,8 +16,8 @@ namespace hw.Library
                 {
                     return this._dateOfIssue;
                 }
-                
-                throw new NullReferenceException("Book in library");
+
+                return DateTime.MaxValue;
             }
             
             private set

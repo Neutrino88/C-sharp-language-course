@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using hw.Library;
 
-class Library
+public class Library
 {
     private LinkedList<Book> booksList;
 
