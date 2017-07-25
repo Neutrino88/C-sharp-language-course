@@ -5,7 +5,7 @@ namespace hw.Library
 {
     public class Customer
     {
-        LinkedList<Book> books;
+        private List<Book> books;
         public string Name { get; private set; }
         public string Number { get; private set; }
         public bool HasRarityBook {
@@ -26,7 +26,7 @@ namespace hw.Library
         {
             this.Name = name;
             this.Number = number;
-            this.books = new LinkedList<Book>();
+            this.books = new List<Book>();
         }
 
         public IReadOnlyCollection<Book> GetAllBooks()
@@ -48,7 +48,7 @@ namespace hw.Library
                     {
                         books.AddLast(curBook);
                     }
-                } catch(Exception ignored)
+                } catch(Exception)
                 {
 
                 }
@@ -59,12 +59,33 @@ namespace hw.Library
 
         public void AddBook(Book book)
         {
-            this.books.AddLast(book);
+            this.books.Add(book);
         }
 
         public void DelBook(Book book)
         {
             this.books.Remove(book);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Customer)
+            {
+                Customer customer = (Customer)obj;
+
+                return (this.Name.Equals(customer.Name) &&
+                    this.Number.Equals(customer.Number));
+            }
+
+            return false;
+        }
+
+        public Book this[int index]
+        {
+            get
+            {
+                return this.books[index];
+            }
         }
     }
 }

@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 
 namespace hw.Library
-{
+{ 
     public class Book
     {
         public string Author { get; private set; }
@@ -42,6 +42,20 @@ namespace hw.Library
         public void DelCustomer()
         {
             this.Customer = null;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Book)
+            {
+                Book book = (Book)obj;
+
+                return (this.Author.Equals(book.Author) &&
+                    this.Title.Equals(book.Title) &&
+                    this.IsRarity == book.IsRarity);
+            }
+
+            return false;
         }
     }
 

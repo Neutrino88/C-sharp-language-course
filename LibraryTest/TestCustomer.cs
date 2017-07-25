@@ -99,5 +99,26 @@ namespace LibraryTest
             Assert.AreEqual(0, customer.GetExpiredBooks().Count);
             CollectionAssert.AreEqual(customer.GetExpiredBooks(), new LinkedList<Book>());
         }
+
+        [Test]
+        public void Customer_GetBookWithIndexer()
+        {
+            Customer customer = new Customer(this.custName, this.custNumber);
+
+            Book book0 = new Book(this.bookAuthor, "book 1", this.bookRarity);
+            Book book1 = new Book(this.bookAuthor, "book 2", this.bookRarity);
+            Book book2 = new Book(this.bookAuthor, "book 3", this.bookRarity);
+            Book book3 = new Book(this.bookAuthor, "book 4", this.bookRarity);
+
+            customer.AddBook(book0);
+            customer.AddBook(book1);
+            customer.AddBook(book2);
+            customer.AddBook(book3);
+
+            Assert.AreEqual(customer[0], book0);
+            Assert.AreEqual(customer[1], book1);
+            Assert.AreEqual(customer[2], book2);
+            Assert.AreEqual(customer[3], book3);
+        }
     }
 }
