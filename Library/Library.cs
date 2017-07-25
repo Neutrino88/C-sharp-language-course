@@ -100,4 +100,20 @@ public class Library
         book.Customer.DelBook(book);
         book.DelCustomer();
     }        
+
+    public Book this[String author, String title]
+    {
+        get
+        {
+            foreach (var book in this.booksList)
+            {
+                if (book.Author == author && book.Title == title)
+                {
+                    return book;
+                }
+            }
+
+            return null;
+        }
+    }
  }

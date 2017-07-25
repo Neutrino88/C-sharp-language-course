@@ -192,5 +192,27 @@ namespace LibraryTest
             
             CollectionAssert.AreEqual(lib.GetFreeBooks(), listFreeBook);
         }
+
+        [Test]
+        public void Library_GetBookByAuthorAndTitleWithIndexer()
+        {
+            Library lib = new Library();
+
+            Book book1 = new Book("Author 1", "Book 1", this.bookRarity);
+            Book book2 = new Book("Author 1", "Book 2", this.bookRarity);
+            Book book3 = new Book("Author 2", "Book 1", this.bookRarity);
+            Book book4 = new Book("Author 2", "Book 2", this.bookRarity);
+
+            lib.AddBook(book1);
+            lib.AddBook(book2);
+            lib.AddBook(book3);
+            lib.AddBook(book4);
+
+            Assert.AreEqual(lib["Author 1", "Book 1"], book1);
+            Assert.AreEqual(lib["Author 1", "Book 2"], book2);
+            Assert.AreEqual(lib["Author 2", "Book 1"], book3);
+            Assert.AreEqual(lib["Author 2", "Book 2"], book4);
+            Assert.AreEqual(lib["Author", "Book"], null);
+        }
     }
 }
