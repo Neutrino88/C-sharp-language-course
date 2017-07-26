@@ -78,6 +78,15 @@ namespace CompNumber
             return new ComplexNumber(realPart, imagPart);
         }
 
+        public static bool operator ==(ComplexNumber a, ComplexNumber b)
+        {
+            return (a.rPart == b.rPart) && (a.iPart == b.iPart);
+        }
+        public static bool operator !=(ComplexNumber a, ComplexNumber b)
+        {
+            return (a.rPart != b.rPart) || (a.iPart != b.iPart);
+        }
+
         public static ComplexNumber operator +(ComplexNumber num)
         {
             return num;
@@ -126,6 +135,16 @@ namespace CompNumber
             {
                 this *= num;
             }
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is ComplexNumber)
+            {
+                return this == (ComplexNumber)obj;
+            }
+
+            return false;
         }
 
         public override string ToString()
