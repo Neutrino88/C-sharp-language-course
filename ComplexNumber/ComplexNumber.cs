@@ -78,6 +78,20 @@ namespace CompNumber
             return new ComplexNumber(realPart, imagPart);
         }
 
+        public static ComplexNumber operator +(ComplexNumber num)
+        {
+            return num;
+        }
+        public static ComplexNumber operator -(ComplexNumber num)
+        {
+            return new ComplexNumber(-num.rPart, -num.iPart);
+        }
+
+        public static explicit operator double(ComplexNumber num)
+        {
+            return Math.Sqrt(Math.Pow(num.rPart, 2) + Math.Pow(num.iPart, 2));
+        }
+
         public void Sum(ComplexNumber num)
         {
             this += num;
@@ -93,6 +107,10 @@ namespace CompNumber
         public void Div(ComplexNumber num)
         {
             this /= num;
+        }
+        public double Abs()
+        {
+            return (double)this;
         }
 
         public void SumNums(params ComplexNumber[] nums)
