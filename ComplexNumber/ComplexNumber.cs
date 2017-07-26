@@ -30,6 +30,29 @@ namespace CompNumber
             return a / b;
         }
 
+        public static ComplexNumber Sum(params ComplexNumber[] nums)
+        {
+            ComplexNumber result = new ComplexNumber(0, 0);
+
+            foreach(var num in nums)
+            {
+                result += num;
+            }
+
+            return result;
+        }
+        public static ComplexNumber Mul(params ComplexNumber[] nums)
+        {
+            ComplexNumber result = new ComplexNumber(1, 0);
+
+            foreach (var num in nums)
+            {
+                result *= num;
+            }
+
+            return result;
+        }
+
         public static ComplexNumber operator +(ComplexNumber a, ComplexNumber b)
         {
             return new ComplexNumber(a.rPart + b.rPart, a.iPart + b.iPart);
