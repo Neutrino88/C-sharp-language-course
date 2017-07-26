@@ -78,6 +78,38 @@ namespace CompNumber
             return new ComplexNumber(realPart, imagPart);
         }
 
+        public void Sum(ComplexNumber num)
+        {
+            this += num;
+        }
+        public void Sub(ComplexNumber num)
+        {
+            this -= num;
+        }
+        public void Mul(ComplexNumber num)
+        {
+            this *= num;
+        }
+        public void Div(ComplexNumber num)
+        {
+            this /= num;
+        }
+
+        public void SumNums(params ComplexNumber[] nums)
+        {
+            foreach (var num in nums)
+            {
+                this += num;
+            }
+        }
+        public void MulNums(params ComplexNumber[] nums)
+        {
+            foreach (var num in nums)
+            {
+                this *= num;
+            }
+        }
+
         public override string ToString()
         {
             return $"{rPart} + {iPart}i";
