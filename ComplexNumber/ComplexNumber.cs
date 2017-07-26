@@ -15,23 +15,37 @@ namespace CompNumber
 
         public static ComplexNumber Sum(ComplexNumber a, ComplexNumber b)
         {
-            return new ComplexNumber(a.rPart + b.rPart, a.iPart + b.iPart);
+            return a + b;
+        }
+        public static ComplexNumber Sub(ComplexNumber a, ComplexNumber b)
+        {
+            return a - b;
+        }
+        public static ComplexNumber Mul(ComplexNumber a, ComplexNumber b)
+        {
+            return a * b;
+        }
+        public static ComplexNumber Div(ComplexNumber a, ComplexNumber b)
+        {
+            return a / b;
         }
 
-        public static ComplexNumber Sub(ComplexNumber a, ComplexNumber b)
+        public static ComplexNumber operator +(ComplexNumber a, ComplexNumber b)
+        {
+            return new ComplexNumber(a.rPart + b.rPart, a.iPart + b.iPart);
+        }
+        public static ComplexNumber operator -(ComplexNumber a, ComplexNumber b)
         {
             return new ComplexNumber(a.rPart - b.rPart, a.iPart - b.iPart);
         }
-
-        public static ComplexNumber Mul(ComplexNumber a, ComplexNumber b)
+        public static ComplexNumber operator *(ComplexNumber a, ComplexNumber b)
         {
             double realPart = (a.rPart * b.rPart) - (a.iPart * b.iPart);
             double imagPart = (a.rPart * b.iPart) + (a.iPart * b.rPart);
 
             return new ComplexNumber(realPart, imagPart);
         }
-
-        public static ComplexNumber Div(ComplexNumber a, ComplexNumber b)
+        public static ComplexNumber operator /(ComplexNumber a, ComplexNumber b)
         {
             double denominator = (Math.Pow(b.rPart, 2) + Math.Pow(b.iPart, 2));
 
