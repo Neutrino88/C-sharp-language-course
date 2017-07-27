@@ -101,40 +101,48 @@ namespace CompNumber
             return Math.Sqrt(Math.Pow(num.rPart, 2) + Math.Pow(num.iPart, 2));
         }
 
-        public void Sum(ComplexNumber num)
+        public ComplexNumber Sum(ComplexNumber num)
         {
-            this += num;
+            return (this + num);
         }
-        public void Sub(ComplexNumber num)
+        public ComplexNumber Sub(ComplexNumber num)
         {
-            this -= num;
+            return (this - num);
         }
-        public void Mul(ComplexNumber num)
+        public ComplexNumber Mul(ComplexNumber num)
         {
-            this *= num;
+            return (this * num);
         }
-        public void Div(ComplexNumber num)
+        public ComplexNumber Div(ComplexNumber num)
         {
-            this /= num;
+            return (this / num);
         }
         public double Abs()
         {
             return (double)this;
         }
 
-        public void SumNums(params ComplexNumber[] nums)
+        public ComplexNumber SumNums(params ComplexNumber[] nums)
         {
+            ComplexNumber result = this;
+
             foreach (var num in nums)
             {
-                this += num;
+                result += num;
             }
+
+            return result;
         }
-        public void MulNums(params ComplexNumber[] nums)
+        public ComplexNumber MulNums(params ComplexNumber[] nums)
         {
+            ComplexNumber result = this;
+
             foreach (var num in nums)
             {
-                this *= num;
+                result *= num;
             }
+
+            return result;
         }
 
         public override bool Equals(object obj)
@@ -145,6 +153,11 @@ namespace CompNumber
             }
 
             return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return (int) (this.iPart * 1000000) + (int) (this.rPart * 1000) ;
         }
 
         public override string ToString()
