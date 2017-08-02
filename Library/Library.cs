@@ -5,15 +5,28 @@ using hw.Library;
 public class Library
 {
     private LinkedList<Book> booksList;
+    public event EventHandler<BookAddedEventArgs> BookAdded;
+    public event EventHandler<CustomerAddedEventArgs> CustomerAdded;
 
     public Library()
     {
         booksList = new LinkedList<Book>();
     }
 
+    protected virtual void OnBookAdded(BookAddedEventArgs args)
+    {
+        this.BookAdded?.Invoke(this, args);
+    }
+
+    protected virtual void OnCustomerAdded(CustomerAddedEventArgs args)
+    {
+        this.CustomerAdded?.Invoke(this, args);
+    }
+
     public void AddBook(Book newBook)
     {
         this.booksList.AddLast(newBook);
+        this.OnBookAdded(new BookAddedEventArgs(newBook, $"Added a new book \"{newBook.Title}\" by {newBook.Author}"));
     }
 
     public IReadOnlyCollection<Book> GetAllBooks()
@@ -92,6 +105,12 @@ public class Library
 
         book.AddCustomer(customer);
         customer.AddBook(book);
+
+        if (customer.GetAllBooks().Count == 1)
+        {
+            OnCustomerAdded(new CustomerAddedEventArgs(customer, $"Added a new customer {customer.Name} with number {customer.Number}"));
+        }
+
         return true;
     }
 

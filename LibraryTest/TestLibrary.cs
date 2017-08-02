@@ -214,5 +214,36 @@ namespace LibraryTest
             Assert.AreEqual(lib["Author 2", "Book 2"], book4);
             Assert.AreEqual(lib["Author", "Book"], null);
         }
+
+        [Test]
+        public void Library_OnAddedBookEvent()
+        {
+            Library lib = new Library();
+
+            Book book = new Book("Author 1", "Book 1", true);
+
+            lib.BookAdded += (sender, eventArgs) =>
+            {
+                Assert.AreEqual(book, eventArgs.Book);
+            };
+
+            lib.AddBook(book);
+        }
+
+        [Test]
+        public void Library_OnAddedCustomerEvent()
+        {
+            Library lib = new Library();
+            Book book = new Book("Author 1", "Book 1", true);
+            Customer customer = new Customer("Customer 1", "22-34-56");
+
+            lib.CustomerAdded += (sender, eventArgs) =>
+            {
+                Assert.AreEqual(customer, eventArgs.Customer);
+            };
+
+            lib.AddBook(book);
+            lib.GiveOutBook(book, customer);
+        }
     }
 }
