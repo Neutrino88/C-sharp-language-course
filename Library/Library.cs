@@ -7,6 +7,7 @@ public class Library
     private LinkedList<Book> booksList;
     public event EventHandler<BookAddedEventArgs> BookAdded;
     public event EventHandler<CustomerAddedEventArgs> CustomerAdded;
+    public event EventHandler<BookStateChangedEventArgs> BookStateChanged;
 
     public Library()
     {
@@ -21,6 +22,11 @@ public class Library
     protected virtual void OnCustomerAdded(CustomerAddedEventArgs args)
     {
         this.CustomerAdded?.Invoke(this, args);
+    }
+
+    protected virtual void OnBookStateChanged(BookStateChangedEventArgs args)
+    {
+        this.BookStateChanged?.Invoke(this, args);
     }
 
     public void AddBook(Book newBook)
@@ -108,8 +114,10 @@ public class Library
 
         if (customer.GetAllBooks().Count == 1)
         {
-            OnCustomerAdded(new CustomerAddedEventArgs(customer, $"Added a new customer {customer.Name} with number {customer.Number}"));
+            this.OnCustomerAdded(new CustomerAddedEventArgs(customer, $"Added a new customer {customer.Name} with number {customer.Number}"));
         }
+
+        this.OnBookStateChanged(new BookStateChangedEventArgs(book, BookState.IssuedToCustomer, $"A book \"{book.Title}\" by {book.Author} issued to the customer", customer));
 
         return true;
     }
@@ -118,7 +126,9 @@ public class Library
     {
         book.Customer.DelBook(book);
         book.DelCustomer();
-    }        
+        this.OnBookStateChanged(new BookStateChangedEventArgs(book, BookState.ReturnedToLibrary, $"A book \"{book.Title}\" by {book.Author} returned to the library"));
+
+    }
 
     public Book this[String author, String title]
     {

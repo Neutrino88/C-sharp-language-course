@@ -25,4 +25,26 @@ namespace hw.Library
             this.Message = message;
         }
     }
+
+    public class BookStateChangedEventArgs : System.EventArgs
+    {
+        public Book Book { get; }
+        public String Message { get; }
+        public BookState State { get; }
+        public Customer Customer { get; }
+
+        public BookStateChangedEventArgs(Book book, BookState bookState, String message, Customer customer = null)
+        {
+            this.Book = book;
+            this.Message = message;
+            this.State = bookState;
+            this.Customer = customer;
+        }
+    }
+
+    public enum BookState
+    {
+        IssuedToCustomer,
+        ReturnedToLibrary
+    }
 }

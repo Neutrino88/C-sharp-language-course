@@ -245,5 +245,32 @@ namespace LibraryTest
             lib.AddBook(book);
             lib.GiveOutBook(book, customer);
         }
+
+        [Test]
+        public void Library_OnBookStateChangedEvent()
+        {
+            Library lib = new Library();
+            Book book = new Book("Author 1", "Book 1", true);
+            Customer customer = new Customer("Customer 1", "22-34-56");
+
+            lib.BookStateChanged += (sender, eventArgs) =>
+            {
+                if (eventArgs.State == BookState.IssuedToCustomer)
+                {
+                    Assert.AreEqual(customer, eventArgs.Customer);
+                    Assert.AreEqual(book, eventArgs.Book);
+                } else if (eventArgs.State == BookState.ReturnedToLibrary)
+                {
+                    Assert.Null(eventArgs.Customer);
+                    Assert.AreEqual(book, eventArgs.Book);
+                } else
+                {
+                    Assert.Fail();
+                }
+            };
+
+            lib.AddBook(book);
+            lib.GiveOutBook(book, customer);
+        }
     }
 }
