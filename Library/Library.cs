@@ -14,25 +14,10 @@ public class Library
         booksList = new LinkedList<Book>();
     }
 
-    protected virtual void OnBookAdded(BookAddedEventArgs args)
-    {
-        this.BookAdded?.Invoke(this, args);
-    }
-
-    protected virtual void OnCustomerAdded(CustomerAddedEventArgs args)
-    {
-        this.CustomerAdded?.Invoke(this, args);
-    }
-
-    protected virtual void OnBookStateChanged(BookStateChangedEventArgs args)
-    {
-        this.BookStateChanged?.Invoke(this, args);
-    }
-
     public void AddBook(Book newBook)
     {
         this.booksList.AddLast(newBook);
-        this.OnBookAdded(new BookAddedEventArgs(newBook, $"Added a new book \"{newBook.Title}\" by {newBook.Author}"));
+        this.BookAdded?.Invoke(this, new BookAddedEventArgs(newBook, $"A new book \"{newBook.Title}\" by {newBook.Author} was added to library"));
     }
 
     public IReadOnlyCollection<Book> GetAllBooks()
@@ -114,10 +99,10 @@ public class Library
 
         if (customer.GetAllBooks().Count == 1)
         {
-            this.OnCustomerAdded(new CustomerAddedEventArgs(customer, $"Added a new customer {customer.Name} with number {customer.Number}"));
+            this.CustomerAdded?.Invoke(this, new CustomerAddedEventArgs(customer, $"A new customer {customer.Name} with number {customer.Number} was added to library"));
         }
 
-        this.OnBookStateChanged(new BookStateChangedEventArgs(book, BookState.IssuedToCustomer, $"A book \"{book.Title}\" by {book.Author} issued to the customer", customer));
+        this.BookStateChanged?.Invoke(this, new BookStateChangedEventArgs(book, BookState.IssuedToCustomer, $"A book \"{book.Title}\" by {book.Author} was issued to the customer", customer));
 
         return true;
     }
@@ -126,7 +111,7 @@ public class Library
     {
         book.Customer.DelBook(book);
         book.DelCustomer();
-        this.OnBookStateChanged(new BookStateChangedEventArgs(book, BookState.ReturnedToLibrary, $"A book \"{book.Title}\" by {book.Author} returned to the library"));
+        this.BookStateChanged?.Invoke(this, new BookStateChangedEventArgs(book, BookState.ReturnedToLibrary, $"A book \"{book.Title}\" by {book.Author} was returned to the library"));
 
     }
 
