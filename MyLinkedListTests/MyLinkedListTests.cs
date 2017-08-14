@@ -117,16 +117,20 @@ namespace MyLinkedListTests
         {
             MyLinkedList<int> myLinkedList = new MyLinkedList<int>();
             int number = 2987;
-            
+            int eventCallCount = 0;
+
             myLinkedList.Added += (sender, args) =>
             {
+                ++eventCallCount;
                 Assert.AreEqual(args.Element, number);
                 Assert.AreEqual(args.LinkedListLength, myLinkedList.Count);
             };
 
             myLinkedList.Add(number);
+            Assert.AreEqual(1, eventCallCount);
             ++number;
             myLinkedList.Insert(number-1, number);
+            Assert.AreEqual(2, eventCallCount);
         }
 
         [Test]
@@ -134,17 +138,23 @@ namespace MyLinkedListTests
         {
             MyLinkedList<int> myLinkedList = new MyLinkedList<int>() { 1, 2, 3 };
             int number = 1;
+            int eventCallCount = 0;
 
             myLinkedList.Removed += (sender, args) =>
             {
+                ++eventCallCount;
                 Assert.AreEqual(args.Element, number);
                 Assert.AreEqual(args.LinkedListLength, myLinkedList.Count);
             };
 
             myLinkedList.Remove(number);
+            Assert.AreEqual(1, eventCallCount);
             myLinkedList.Remove(++number);
+            Assert.AreEqual(2, eventCallCount);
             myLinkedList.Remove(++number);
+            Assert.AreEqual(3, eventCallCount);
             myLinkedList.Remove(++number);
+            Assert.AreEqual(3, eventCallCount);
         }
 
         [Test]
@@ -152,14 +162,18 @@ namespace MyLinkedListTests
         {
             MyLinkedList<int> myLinkedList = new MyLinkedList<int>() { 1, 2, 3 };
 
+            int eventCallCount = 0;
+            
             myLinkedList.Cleared += (sender, args) =>
             {
+                ++eventCallCount;
                 Assert.AreEqual(args.DeletedItemCount, 3);
                 Assert.AreEqual(myLinkedList.Count, 0);
  
             };
 
             myLinkedList.Clear();
+            Assert.AreEqual(1, eventCallCount);
         }
     }
 }

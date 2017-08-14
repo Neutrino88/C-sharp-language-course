@@ -21,14 +21,19 @@ namespace MyList
 
             public bool Equals(T item)
             {
-                return (this.Value.Equals(item));
+                return Equals(Value, item);
             }
         }
 
         private Node<T> firstNode;
         private Node<T> lastNode;
         public int Count { get; private set; }
-        public bool IsReadOnly { get; private set; }
+        public bool IsReadOnly {
+            get
+            {
+                return false;
+            }
+        }
         public T First {
             get
             {
@@ -57,7 +62,7 @@ namespace MyList
         }
         public event EventHandler<AddedEventsArgs<T>> Added;
         public event EventHandler<RemovedEventsArgs<T>> Removed;
-        public event EventHandler<ClearedEventsArgs<T>> Cleared;
+        public event EventHandler<ClearedEventsArgs> Cleared;
 
         public MyLinkedList()
         {
@@ -68,16 +73,12 @@ namespace MyList
         
         private IEnumerable<Node<T>> GetEnumerableNode<Node>()
         {
-            var result = new List<Node<T>>();
-
             Node<T> curNode = this.firstNode;
             while (curNode != null)
             {
-                result.Add(curNode);
+                yield return curNode;
                 curNode = curNode.Next;
             }
-
-            return result;
         }
 
         public IEnumerator<T> GetEnumerator()
@@ -121,7 +122,7 @@ namespace MyList
             int deletedItemCount = this.Count;
             this.Count = 0;
 
-            this.Cleared?.Invoke(this, new ClearedEventsArgs<T>(deletedItemCount));
+            this.Cleared?.Invoke(this, new ClearedEventsArgs(deletedItemCount));
         }
         
         public bool Contains(T item)
@@ -164,9 +165,6 @@ namespace MyList
                         nextNode.Prev = curNode.Prev;
                     else
                         lastNode = curNode.Prev;
-
-                    curNode.Next = curNode.Prev = null;
-                    curNode.Value = default(T);
 
                     --this.Count;
                     this.Removed?.Invoke(this, new RemovedEventsArgs<T>(item, this.Count));

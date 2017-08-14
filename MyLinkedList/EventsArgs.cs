@@ -24,7 +24,7 @@
         }
     }
 
-    public class ClearedEventsArgs<T> : System.EventArgs
+    public class ClearedEventsArgs: System.EventArgs
     {
         public int DeletedItemCount { get; }
 
