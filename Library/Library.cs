@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using hw.Library;
+using System.Linq;
 
 public class Library
 {
@@ -20,69 +21,29 @@ public class Library
         this.BookAdded?.Invoke(this, new BookAddedEventArgs(newBook, $"A new book \"{newBook.Title}\" by {newBook.Author} was added to library"));
     }
 
-    public IReadOnlyCollection<Book> GetAllBooks()
+    public IReadOnlyList<Book> GetAllBooks()
     {
-        return this.booksList;
+        return this.booksList.ToList();
     }
 
-    public IReadOnlyCollection<Book> GetFreeBooks()
+    public IReadOnlyList<Book> GetFreeBooks()
     {
-        LinkedList<Book> freeBooksList = new LinkedList<Book>();
-
-        foreach (var curBook in this.booksList)
-        {
-            if (curBook.Customer == null)
-            {
-                freeBooksList.AddLast(curBook);
-            }
-        }
-        
-        return freeBooksList;
+        return this.booksList.Where(book => book.Customer == null).ToList();
     }
 
-    public IReadOnlyCollection<Book> GetTakenBooks()
+    public IReadOnlyList<Book> GetTakenBooks()
     {
-        LinkedList<Book> takenBooksList = new LinkedList<Book>();
-
-        foreach (var curBook in this.booksList)
-        {
-            if (curBook.Customer != null)
-            {
-                takenBooksList.AddLast(curBook);
-            }
-        }
-
-        return takenBooksList;
+        return this.booksList.Where(book => book.Customer != null).ToList();
     }
 
-    public IReadOnlyCollection<Book> FindBooksByAuthor(String author)
+    public IReadOnlyList<Book> FindBooksByAuthor(String author)
     {
-        LinkedList<Book> trueBooks = new LinkedList<Book>();
-
-        foreach (var curBook in this.booksList)
-        {
-            if (curBook.Author == author)
-            {
-                trueBooks.AddLast(curBook);
-            }
-        }
-
-        return trueBooks;
+        return this.booksList.Where(book => book.Author == author).ToList();
     }
 
-    public IReadOnlyCollection<Book> FindBooksByTitle(String title)
+    public IReadOnlyList<Book> FindBooksByTitle(String title)
     {
-        LinkedList<Book> trueBooks = new LinkedList<Book>();
-
-        foreach (var curBook in this.booksList)
-        {
-            if (curBook.Title == title)
-            {
-                trueBooks.AddLast(curBook);
-            }
-        }
-
-        return trueBooks;
+        return this.booksList.Where(book => book.Title == title).ToList();
     }
 
     public bool GiveOutBook(Book book, Customer customer)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace hw.Library
@@ -11,14 +12,15 @@ namespace hw.Library
         public bool HasRarityBook {
             get
             {
-                bool hasRarityBook = false;
-
                 foreach (var curBook in books)
                 {
-                    hasRarityBook |= curBook.IsRarity; 
+                    if (curBook.IsRarity)
+                    {
+                        return true;
+                    }
                 }
 
-                return hasRarityBook;
+                return false;
             }
         }
 
@@ -29,32 +31,20 @@ namespace hw.Library
             this.books = new List<Book>();
         }
 
-        public IReadOnlyCollection<Book> GetAllBooks()
+        public IReadOnlyList<Book> GetAllBooks()
         {
             return this.books;
         }
 
-        public IReadOnlyCollection<Book> GetExpiredBooks()
+        public IReadOnlyList<Book> GetExpiredBooks()
         {
-            LinkedList<Book> books = new LinkedList<Book>();
-            
-            foreach(var curBook in this.books)
-            {
-                try
-                {
-                    TimeSpan ts = curBook.DateOfIssue - DateTime.Now;
+            var books =
+                from book in this.books
+                let ts = book.DateOfIssue - DateTime.Now
+                where (ts.Days > 14 && book.DateOfIssue < DateTime.MaxValue)
+                select book;
 
-                    if (ts.Days > 14 && curBook.DateOfIssue < DateTime.MaxValue)
-                    {
-                        books.AddLast(curBook);
-                    }
-                } catch(Exception)
-                {
-
-                }
-            }
-
-            return books;
+            return books.ToList();
         }
 
         public void AddBook(Book book)
@@ -78,6 +68,11 @@ namespace hw.Library
             }
 
             return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return this.Name.GetHashCode() * 10000 + this.Number.GetHashCode();
         }
 
         public Book this[int index]

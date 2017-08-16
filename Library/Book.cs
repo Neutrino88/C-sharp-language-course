@@ -57,6 +57,11 @@ namespace hw.Library
 
             return false;
         }
+        
+        public override int GetHashCode()
+        {
+            return this.Author.GetHashCode() * 10000 + this.Title.GetHashCode();
+        }
     }
 
 }
