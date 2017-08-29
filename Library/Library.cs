@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using hw.Library;
 using System.Linq;
+using System.Xml;
 
+[DataContract, KnownType(typeof(Book))]
 public class Library
 {
-    private LinkedList<Book> booksList;
+    [DataMember] private LinkedList<Book> booksList;
     public event EventHandler<BookAddedEventArgs> BookAdded;
     public event EventHandler<CustomerAddedEventArgs> CustomerAdded;
     public event EventHandler<BookStateChangedEventArgs> BookStateChanged;
@@ -74,6 +77,27 @@ public class Library
         book.DelCustomer();
         this.BookStateChanged?.Invoke(this, new BookStateChangedEventArgs(book, BookState.ReturnedToLibrary, $"A book \"{book.Title}\" by {book.Author} was returned to the library"));
 
+    }
+
+    public void WriteToFile(String fileName)
+    {
+        DataContractSerializer ds = new DataContractSerializer(typeof(Library), null, 1000, false, true, null);
+        XmlWriterSettings setting = new XmlWriterSettings() { Indent = true };
+
+        using (XmlWriter writer = XmlWriter.Create(fileName, setting))
+        {
+            ds.WriteObject(writer, this);
+        }
+    }
+
+    public static Library ReadFromFile(String fileName)
+    {
+        DataContractSerializer ds = new DataContractSerializer(typeof(Library), null, 1000, false, true, null);
+
+        using (XmlReader reader = XmlReader.Create(fileName))
+        {
+            return (Library) ds.ReadObject(reader);
+        }
     }
 
     public Book this[String author, String title]

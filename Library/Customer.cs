@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace hw.Library
 {
+    [DataContract, KnownType(typeof(Book))]
     public class Customer
     {
-        private List<Book> books;
-        public string Name { get; private set; }
-        public string Number { get; private set; }
+        [DataMember] private List<Book> books;
+        [DataMember] public string Name { get; private set; }
+        [DataMember] public string Number { get; private set; }
         public bool HasRarityBook {
             get
             {

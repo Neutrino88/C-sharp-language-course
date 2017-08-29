@@ -1,14 +1,16 @@
 using System;
+using System.Runtime.Serialization;
 
 namespace hw.Library
 { 
+    [DataContract, KnownType(typeof(Customer))]
     public class Book
     {
-        public string Author { get; private set; }
-        public string Title  { get; private set; }
-        public bool IsRarity { get; private set; }
-        public Customer Customer { get; private set; } = null;
-        private DateTime _dateOfIssue;
+        [DataMember] public string Author { get; private set; }
+        [DataMember] public string Title  { get; private set; }
+        [DataMember] public bool IsRarity { get; private set; }
+        [DataMember] public Customer Customer { get; private set; } = null;
+        [DataMember] private DateTime _dateOfIssue;
         public DateTime DateOfIssue{
             get
             {
