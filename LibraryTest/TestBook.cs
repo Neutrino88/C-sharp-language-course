@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using hw.Library;
 
-namespace LibraryClassesTesting
+namespace LibraryTest
 {
     [TestFixture]
     public class TestBook

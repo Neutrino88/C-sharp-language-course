@@ -189,7 +189,7 @@ namespace LibraryTest
 
             lib.ReturnBookToLibrary(listFreeBook.First.Value);
             lib.ReturnBookToLibrary(listFreeBook.Last.Value);
-            
+
             CollectionAssert.AreEqual(lib.GetFreeBooks(), listFreeBook);
         }
 
@@ -271,6 +271,55 @@ namespace LibraryTest
 
             lib.AddBook(book);
             lib.GiveOutBook(book, customer);
+        }
+
+        [Test]
+        public void Library_Serialization()
+        {
+            Library lib = new Library();
+
+            Book book1 = new Book("Author 1", "Title 1", true);
+            Book book2 = new Book("Author 1", "Title 2", false);
+            Book book3 = new Book("Author 2", "Title 2", true);
+
+            Customer customer1 = new Customer("name 1", "22-33-44");
+            Customer customer2 = new Customer("name 2", "22-44-33");
+
+            lib.AddBook(book1);
+            lib.AddBook(book2);
+            lib.AddBook(book3);
+
+            lib.GiveOutBook(book1, customer1);
+            lib.GiveOutBook(book2, customer2);
+
+            lib.WriteToFile("Test_Libraty_WriteToObject.xml");
+
+            Library lib2 = Library.ReadFromFile("Test_Libraty_WriteToObject.xml");
+
+            Assert.NotNull(lib2);
+            Assert.AreEqual(3, lib2.GetAllBooks().Count);
+
+            Assert.AreEqual(book1, lib2[book1.Author, book1.Title]);
+            Assert.AreEqual(book2, lib2[book2.Author, book2.Title]);
+            Assert.AreEqual(book3, lib2[book3.Author, book3.Title]);
+
+            Assert.AreEqual(book1.IsRarity, lib2[book1.Author, book1.Title].IsRarity);
+            Assert.AreEqual(book2.IsRarity, lib2[book2.Author, book2.Title].IsRarity);
+            Assert.AreEqual(book3.IsRarity, lib2[book3.Author, book3.Title].IsRarity);
+
+            Assert.AreEqual(book1.DateOfIssue, lib2[book1.Author, book1.Title].DateOfIssue);
+            Assert.AreEqual(book2.DateOfIssue, lib2[book2.Author, book2.Title].DateOfIssue);
+            Assert.AreEqual(book3.DateOfIssue, lib2[book3.Author, book3.Title].DateOfIssue);
+            
+            Assert.AreEqual(book1.Customer, lib2[book1.Author, book1.Title].Customer);
+            Assert.AreEqual(book2.Customer, lib2[book2.Author, book2.Title].Customer);
+            Assert.AreEqual(book3.Customer, lib2[book3.Author, book3.Title].Customer);
+            Assert.IsNull(book3.Customer);
+
+            Assert.AreEqual(book1.Customer.GetAllBooks(), lib2[book1.Author, book1.Title].Customer.GetAllBooks());
+            Assert.AreEqual(book2.Customer.GetAllBooks(), lib2[book2.Author, book2.Title].Customer.GetAllBooks());
+
+            System.IO.File.Delete("Test_Libraty_WriteToObject.xml");
         }
     }
 }
