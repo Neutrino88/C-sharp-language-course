@@ -28,8 +28,8 @@ namespace hw.Library
 
         public Customer(string name, string number)
         {
-            this.Name = name;
-            this.Number = number;
+            this.Name = name     ?? throw new ArgumentNullException("name");
+            this.Number = number ?? throw new ArgumentNullException("number");
             this.books = new List<Book>();
         }
 

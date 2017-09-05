@@ -30,8 +30,8 @@ namespace hw.Library
         
         public Book(string author, string title, bool isRarity)
         {
-            this.Author = author;
-            this.Title = title;
+            this.Author = author ?? throw new ArgumentNullException("author");
+            this.Title = title   ?? throw new ArgumentNullException("title");
             this.IsRarity = isRarity;
         }
 
